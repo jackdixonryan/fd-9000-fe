@@ -20,18 +20,45 @@
         <div class="money">
             <span>Languages: {{character.languages}}</span>
         </div>
-      </div>
-      <div class="character-stats">
         <div>
-            <span> Spell Saves: {{character.spellcastingInfo.spellSaveDifficulties[0]}}</span>
-            <span> Spell Attack Bonus: {{character.spellcastingInfo.spellAttackBonuses[0]}}</span>
+            <span> Spell Saves: {{character.spellcastingInfo.spellSaveDifficulties[0]}}, </span>
+            <span> Spell Attack Bonus: {{character.spellcastingInfo.spellAttackBonuses[0]}}, </span>
             <span> Spellcasting Abilities: {{character.spellcastingInfo.spellcastingAbilities[0]}}</span>
         </div>
-        <div v-for="spellList in character.spells">
-            <div v-for="spell in spellList" :key="spell.name">
-                <span>Name: {{spell.name}} Range:{{spell.range}} Components:{{spell.components}} Duration:{{spell.duration}} Source:{{spell.source}}</span>
-            </div>
-        </div>
+      </div>
+      <div class="character-stats">
+        <table>
+                <tr>
+                    <th>Name</th>
+                    <th>ToHit</th>
+                    <th>Damange</th>
+                    <th>Notes</th>
+                </tr>
+                <tr v-for="spell in character.attacks">
+                    <td>{{spell.name}}</td>
+                    <td>{{spell.toHit}}</td>
+                    <td>{{spell.damageString}}</td>
+                    <td>{{spell.notes}}</td>
+                </tr>
+        </table>
+      </div>
+      <div class="character-stats">
+        <table>
+                <tr>
+                    <th>Name</th>
+                    <th>Range</th>
+                    <th>Cmpnts</th>
+                    <th>Source</th>
+                    <th>Duration</th>
+                </tr>
+                <tr v-for="spell in character.spells">
+                    <td>{{spell.name}}</td>
+                    <td>{{spell.range}}</td>
+                    <td>{{spell.components}}</td>
+                    <td>{{spell.source}}</td>
+                    <td>{{spell.duration}}</td>
+                </tr>
+        </table>
       </div>
     </div>
   </div>
@@ -95,5 +122,26 @@ h1 {
     color: white;
     border: 1px solid #ccc;
     font-size: 40px;
+}
+
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+  font-size: 12px;
+}
+
+th {
+    font-weight: bold;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
 }
 </style>
