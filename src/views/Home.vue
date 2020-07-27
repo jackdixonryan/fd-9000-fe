@@ -1,18 +1,15 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <graph-client></graph-client>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
-
+import GraphClient from "../components/GraphClient";
 export default {
   name: 'Home',
   components: {
-    HelloWorld
+    GraphClient,
   }
 }
 </script>
