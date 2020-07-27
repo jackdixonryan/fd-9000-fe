@@ -14,6 +14,11 @@ Vue.use(VueRouter)
     path: '/spells',
     name: 'Spells',
     component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+  },
+  {
+    path: '/characters',
+    name: 'Characters',
+    component: () => import(/* webpackChunkName: "characters" */ '../views/Characters.vue')
   }
 ]
 
