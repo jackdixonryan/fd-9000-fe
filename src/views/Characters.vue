@@ -31,14 +31,14 @@
                 <tr>
                     <th>Name</th>
                     <th>ToHit</th>
-                    <th>Damange</th>
+                    <th>Damage</th>
                     <th>Notes</th>
                 </tr>
-                <tr v-for="spell in character.attacks">
-                    <td>{{spell.name}}</td>
-                    <td>{{spell.toHit}}</td>
-                    <td>{{spell.damageString}}</td>
-                    <td>{{spell.notes}}</td>
+                <tr v-for="attack in character.attacks">
+                    <td>{{attack.name}}</td>
+                    <td>{{attack.toHit}}</td>
+                    <td>{{attack.damageString}}</td>
+                    <td>{{attack.notes}}</td>
                 </tr>
         </table>
       </div>
@@ -48,14 +48,14 @@
                     <th>Name</th>
                     <th>Range</th>
                     <th>Cmpnts</th>
-                    <th>Source</th>
+                    <th>Level</th>
                     <th>Duration</th>
                 </tr>
                 <tr v-for="spell in character.spells">
                     <td>{{spell.name}}</td>
                     <td>{{spell.range}}</td>
                     <td>{{spell.components}}</td>
-                    <td>{{spell.source}}</td>
+                    <td>{{spell.level}}</td>
                     <td>{{spell.duration}}</td>
                 </tr>
         </table>
