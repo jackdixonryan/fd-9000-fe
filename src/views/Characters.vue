@@ -57,50 +57,89 @@
                 <li v-if="character.characteristics.alignment">Alignment: {{character.characteristics.alignment}}</li>
             </ul>
         </div>
+        
       </div>
       <div class="character-stats">
-        <table>
-                <tr>
-                    <th>Name</th>
-                    <th>ToHit</th>
-                    <th>Damage</th>
-                    <th>Notes</th>
-                </tr>
-                <tr v-for="attack in character.attacks">
-                    <td>{{attack.name}}</td>
-                    <td>{{attack.toHit}}</td>
-                    <td>{{attack.damageString}}</td>
-                    <td>{{attack.notes}}</td>
-                </tr>
-        </table>
+        <template>
+            <div>
+                <vue-good-table
+
+                :columns="attackColumns"
+                :rows="character.attacks"
+                
+                />
+            </div>
+        </template>
       </div>
       <div class="character-stats">
-        <table>
-                <tr>
-                    <th>Name</th>
-                    <th>Range</th>
-                    <th>Cmpnts</th>
-                    <th>Level</th>
-                    <th>Duration</th>
-                </tr>
-                <tr v-for="spell in character.spells">
-                    <td>{{spell.name}}</td>
-                    <td>{{spell.range}}</td>
-                    <td>{{spell.components}}</td>
-                    <td>{{spell.level}}</td>
-                    <td>{{spell.duration}}</td>
-                </tr>
-        </table>
+        <template>
+            <div>
+                <vue-good-table
+                    :columns="spellColumns"
+                    :rows="character.spells"
+                    :select-options="{ enabled: true, selectOnCheckboxOnly: true }" 
+                    @on-selected-rows-change="selectionChanged">
+                    
+                </vue-good-table>
+
+            </div>
+        </template>
       </div>
     </div>
   </div>
 </template>
 
+
 <script>
 export default {
-  name: "Character",
-  data() {
+  name: 'my-component',
+  data(){
     return {
+      spellColumns: [
+        {
+          label: '?',
+          field: 'prepared',
+        },{
+          label: 'Name',
+          field: 'name',
+        },
+        {
+          label: 'Range',
+          field: 'range',
+        },
+        {
+          label: 'Cmpts',
+          field: 'components',
+        },
+        {
+          label: 'Lvl',
+          field: 'level',
+          type: 'number',
+        },
+        {
+          label: 'Duration',
+          field: 'duration',
+        },
+      ],
+      attackColumns: [
+        {
+          label: 'Name',
+          field: 'name',
+        },
+        {
+          label: 'To Hit',
+          field: 'toHit',
+          type: 'number',
+        },
+        {
+          label: 'Damage',
+          field: 'damageString',
+        },
+        {
+          label: 'Notes',
+          field: 'notes',
+        },
+      ],
       characters: []
     };
   },
@@ -108,11 +147,35 @@ export default {
     fetch("list.json")
         .then(response => response.json())
         .then(data => (this.characters = data));
+  },
+  methods: {
+  selectionChanged(params) {
+    for (let i = 0; i < params.selectedRows.length; i++) {
+        console.log("Selected: " + params.selectedRows[i].name)
+    }
+
+    for (let i = 0; i < params.selectedRows.length; i++) {
+        for (let j = 0; j < this.characters.length; j++) {
+            if (this.characters[j].name === params.selectedRows[i].caster) {
+                for (let k = 0; k < this.characters[j].spells.length; k++) {
+                    if (this.characters[j].spells[k].name === params.selectedRows[i].name){
+                        if (this.characters[j].spells[k].prepared === "N"){
+                            console.log("Preparing spell " + this.characters[j].spells[k].name)
+                            this.characters[j].spells[k].prepared = "Y"
+                        }
+                        else{
+                            console.log("Unpreparing spell " + this.characters[j].spells[k].name)
+                            this.characters[j].spells[k].prepared = "N"
+                        }
+                    }
+                }
+            }
+        }
+    }
   }
+}
 };
 </script>
-
-
 
 <style scoped>
 
