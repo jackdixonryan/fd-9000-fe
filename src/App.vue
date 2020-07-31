@@ -9,7 +9,8 @@
 </template>
 
 <style lang="scss">
-  * {
-    font-family: "Fira Sans", "Comic Sans"
+  body, html {
+    font-family: "Fira Sans";
+    background-color: #EAE7DC;
   }
 </style>
