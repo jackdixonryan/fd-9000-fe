@@ -4,7 +4,7 @@
       <div class="character-name-div">
         <h1 class="character-name">
           <span>
-            <button class="expand-button">+</button>  
+            <button class="expand-button" @click="triggerExpansion">+</button>  
           </span>
           {{ character.name }}
         </h1>
@@ -49,12 +49,27 @@
         <input type="text" :name="character.name + '-search'" :id="character.name + '-search'" placeholder="search" class="text-input" />
       </div>
     </div>
+    <expansion-panel :character="character" v-if="expanded"></expansion-panel>
   </div>
 </template>
 
 <script>
+  import ExpansionPanel from "./ExpansionPanel";
   export default {
-    props: ["character"]
+    props: ["character"],
+    components: {
+      ExpansionPanel
+    },
+    data() {
+      return {
+        expanded: false
+      }
+    },
+    methods: {
+      triggerExpansion() {
+        this.expanded ? this.expanded = false : this.expanded = true;
+      }
+    }
   }
 </script>
 
