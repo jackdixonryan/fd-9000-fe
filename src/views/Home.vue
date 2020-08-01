@@ -11,30 +11,30 @@
       </div>
       <div id="links" class="content-area">
         <div id="link-list">
-          <a href="/characters" class="link animate__animated animate__flipInX" style="animation-delay:0.5s;">
+          <router-link to="/characters" class="link animate__animated animate__flipInX" style="animation-delay:0.5s;">
             <span>&rarr;</span>
             Characters
-          </a>
-          <a href="/monsters" class="link animate__animated animate__flipInX" style="animation-delay:1s;">
+          </router-link>
+          <router-link to="/monsters" class="link animate__animated animate__flipInX" style="animation-delay:1s;">
             <span>&rarr;</span>
             Monsters
-          </a>
-          <a href="/notes" class="link animate__animated animate__flipInX" style="animation-delay:1.5s;">
+          </router-link>
+          <router-link to="/notes" class="link animate__animated animate__flipInX" style="animation-delay:1.5s;">
             <span>&rarr;</span>
             Notes
-          </a>
-          <a href="/story" class="link animate__animated animate__flipInX" style="animation-delay:2s;">
+          </router-link>
+          <router-link to="/story" class="link animate__animated animate__flipInX" style="animation-delay:2s;">
             <span>&rarr;</span>
             Story
-          </a>
-          <a href="/map" class="link animate__animated animate__flipInX" style="animation-delay:2.5s;">
+          </router-link>
+          <router-link to="/map" class="link animate__animated animate__flipInX" style="animation-delay:2.5s;">
             <span>&rarr;</span>
             Map
-          </a>
-          <a href="/login" class="link animate__animated animate__flipInX" style="animation-delay:3s;">
+          </router-link>
+          <p class="link animate__animated animate__flipInX" style="animation-delay:3s;" @click="signOut">
             <span>&rarr;</span>
-            Sign In
-          </a>
+            Sign Out
+          </p>
         </div>
       </div>
     </div>
@@ -51,6 +51,12 @@
 import "animate.css";
 export default {
   name: 'Home',
+  methods: {
+    signOut() {
+      localStorage.removeItem("fd9000token");
+      this.$store.commit("changeAuthState");
+    }
+  }
 }
 </script>
 
