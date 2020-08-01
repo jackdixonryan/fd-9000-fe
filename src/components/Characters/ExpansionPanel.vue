@@ -31,10 +31,7 @@
       <li class="option">
         <span><button class="expand-button" @click="triggerExpand('description')">+</button></span>
         Description
-      </li>
-      <li class="option">
-        <span><button class="expand-button" @click="triggerExpand('action')">+</button></span>
-        Other
+        <description-info v-if="expandedItems.includes('description')" :characteristics="character.characteristics" :notes="character.notes" :race="character.race"></description-info>
       </li>
     </ul>
   </div>
