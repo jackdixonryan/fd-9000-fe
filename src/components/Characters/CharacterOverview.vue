@@ -4,7 +4,7 @@
       <div class="character-name-div">
         <h1 class="character-name">
           <span>
-            <button class="expand-button">+</button>  
+            <button class="expand-button" @click="triggerExpansion">+</button>  
           </span>
           {{ character.name }}
         </h1>
@@ -12,14 +12,16 @@
       <div class="character-class">
         {{ character.race }} | Level {{ character.classes[0].level }} {{ character.classes[0].name }}
       </div>
-      <div class="armor-class">
-        {{ character.armorClass }}
-      </div>
-      <div class="passive-perception">
-        {{ character.passivePerception }}
-      </div>
-      <div class="hit-points">
-        {{ character.hitPointMax }}
+      <div class="main-stats">
+        <div class="armor-class">
+          {{ character.armorClass }}
+        </div>
+        <div class="passive-perception">
+          {{ character.passivePerception }}
+        </div>
+        <div class="hit-points">
+          {{ character.hitPointMax }}
+        </div>
       </div>
       <div class="character-speed">
         <span v-for="speed in character.speeds" :key="speed.name + character.name">
@@ -29,26 +31,45 @@
           </span>
         </span>
       </div>
-      <button class="action-button">
-        <i class="fas fa-magic"></i>
-      </button>
-      <button class="action-button">
-        <i class="fas fa-fist-raised"></i>
-      </button>
-      <button class="action-button">
-        <i class="fas fa-dice-d20"></i>
-      </button>
-      <button class="action-button">
-        <i class="fas fa-search"></i>
-      </button>
-      <input type="text" :name="character.name + '-search'" :id="character.name + '-search'" placeholder="search" class="text-input" />
+      <div class="action-buttons">
+        <button class="action-button">
+          <i class="fas fa-magic"></i>
+        </button>
+        <button class="action-button">
+          <i class="fas fa-fist-raised"></i>
+        </button>
+        <button class="action-button">
+          <i class="fas fa-dice-d20"></i>
+        </button>
+      </div>
+      <div class="character-search">
+        <button class="action-button">
+          <i class="fas fa-search"></i>
+        </button>
+        <input type="text" :name="character.name + '-search'" :id="character.name + '-search'" placeholder="search" class="text-input" />
+      </div>
     </div>
+    <expansion-panel :character="character" v-if="expanded"></expansion-panel>
   </div>
 </template>
 
 <script>
+  import ExpansionPanel from "./ExpansionPanel";
   export default {
-    props: ["character"]
+    props: ["character"],
+    components: {
+      ExpansionPanel
+    },
+    data() {
+      return {
+        expanded: false
+      }
+    },
+    methods: {
+      triggerExpansion() {
+        this.expanded ? this.expanded = false : this.expanded = true;
+      }
+    }
   }
 </script>
 
@@ -60,6 +81,11 @@
 
   .character-name {
     font-size: 1.5rem;
+  }
+
+  .header-panel {
+    display: flex;
+    align-items: center;
   }
 
   .coin {
@@ -92,17 +118,19 @@
   }
 
   .character-name-div {
-    display: inline-block;
+    flex: 1.5;
   }
 
   .character-class {
-    display: inline-block;
-    margin-left: 2rem;
+    flex: 2;
+  }
+
+  .main-stats {
+    flex: 1.5;
   }
 
   .armor-class {
     display: inline-block;
-    margin-left: 2rem;
     background-color: #D8C3A5; 
     padding: 1rem;
     border-radius: 50%;
@@ -111,7 +139,6 @@
 
   .passive-perception {
     display: inline-block;
-    margin-left: 2rem;
     background-color: #D8C3A5; 
     padding: 1rem;
     border-radius: 50%;
@@ -120,7 +147,6 @@
 
   .hit-points {
     display: inline-block;
-    margin-left: 2rem;
     background-color: #E85A4F; 
     padding: 1rem;
     border-radius: 50%;
@@ -129,8 +155,13 @@
   }
 
   .character-speed {
+    flex: 1;
     display: inline-block;
     margin-left: 2rem;
+  }
+
+  .action-buttons {
+    flex: 1.5;
   }
 
   .action-button {
@@ -142,7 +173,10 @@
     outline: none;
     cursor: pointer;
     font-size: 1.5rem;
-    margin-left: 2rem;
+  }
+
+  .character-search {
+    flex: 2.5;
   }
 
   .text-input {
