@@ -3,7 +3,7 @@ import * as axios from "axios";
 const auth = (function createAuth() {
   "use strict";
 
-  const authEndpoint = "http://localhost:9000/authenticate";
+  const authEndpoint = "https://fd-9000-server-production.herokuapp.com/authenticate";
 
   return {
     async signIn(username, password) {
