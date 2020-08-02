@@ -35,28 +35,43 @@
         </span>
       </div>
       <div class="action-buttons">
-        <button class="action-button">
+        <button class="action-button" @click="openSpells">
           <i class="fas fa-magic"></i>
         </button>
-        <button class="action-button">
+        <button class="action-button" @click="openActions">
           <i class="fas fa-fist-raised"></i>
         </button>
-        <button class="action-button">
+        <button class="action-button" @click="openSkills">
           <i class="fas fa-dice-d20"></i>
         </button>
       </div>
       <div class="character-search">
-        <button class="action-button">
+        <button class="action-button" @click="searchKeys">
           <i class="fas fa-search"></i>
         </button>
-        <input type="text" :name="character.name + '-search'" :id="character.name + '-search'" placeholder="search" class="text-input" />
+        <input type="text" :name="character.name + '-search'" :id="character.name + '-search'" placeholder="search" class="text-input" v-model="characterSearchQuery" @keyup.enter="searchKeys" />
       </div>
     </div>
-    <expansion-panel :character="character" v-if="expanded"></expansion-panel>
+    <expansion-panel :character="character" v-if="expanded" :autoOpened="autoOpened"></expansion-panel>
+    <div class="searchResults link animate__animated animate__fadeInUp" v-if="queryResults">
+      <h3 class="search-header">Search: {{ characterSearchQuery }}</h3>
+      <button class="close-query" @click="closeSearch">X</button>
+      <h3 class="name">{{ character.name }}</h3>
+      <hr />
+      <div v-if="queryResults.length > 0">
+        <h1 class="query">Match: {{queryResults[0].prop}}<span>{{ 100 - Math.floor(queryResults[0].score * 100) }}%</span></h1>
+        <p>{{ queryResults[0].value }}</p>
+      </div>
+      <div v-else>
+        <p>Sorry! We couldn't find what you were looking for.</p>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
+  import "animate.css";
+  import Fuse from "fuse.js";
   import ExpansionPanel from "./ExpansionPanel";
   export default {
     props: ["character"],
@@ -65,12 +80,48 @@
     },
     data() {
       return {
-        expanded: false
+        expanded: false,
+        characterSearchQuery: "",
+        autoOpened: "",
+        queryResults: null,
       }
     },
     methods: {
       triggerExpansion() {
         this.expanded ? this.expanded = false : this.expanded = true;
+      },
+      searchKeys() {
+        const keys = Object.keys(this.character);
+        const options = { includeScore: true }
+        const fuse = new Fuse(keys, options);
+        const result = fuse.search(this.characterSearchQuery);
+
+        // if it's a reasonable match...
+        if (result[0] && result[0].score < 0.5) {
+          this.queryResults = [{
+            prop: result[0].item,
+            score: result[0].score,
+            value: this.character[result[0].item]
+          }]
+        } else {
+          this.queryResults = [];
+        }
+      },
+      openSpells() {
+        this.expanded = true;
+        this.autoOpened = "spells"
+      },
+      openActions() {
+        this.expanded = true;
+        this.autoOpened = "attacks"
+      },
+      openSkills() {
+        this.expanded = true;
+        this.autoOpened = "skills"
+      },
+      closeSearch() {
+        this.queryResults = null;
+        this.characterSearchQuery = "";
       }
     }
   }
@@ -197,6 +248,56 @@
     &:focus {
       padding: 0.5rem;
     }
+  }
+
+  .search-header {
+    font-size: 1.25rem;
+    color: #E85A4F;
+    display: inline;
+  }
+
+  .name {
+    font-size: 0.75rem;
+    color: #E85A4F;
+  }
+
+  .close-query {
+    font-size: 1rem;
+    background: none;
+    border: none;
+    outline: none; 
+    color: #E85A4F;
+    margin-left: 4rem;
+    cursor: pointer;
+    border-radius: 50%;
+    padding: 0.5rem;
+    width: 2.25rem;
+    &:hover {
+      background: #D8C3A5; 
+    }
+  }
+
+  .searchResults {
+    padding: 1.5rem;
+    border-radius: 0.25rem;
+    box-shadow: 1px 1px 1px 1px;
+    width: 15rem;
+    height: 15rem;
+    position: absolute;
+    background: #EAE7DC;
+    right: 1rem;
+    bottom: 1rem;
+    overflow: scroll;
+  }
+  
+  .query {
+    font-size: 0.75rem;
+    span {
+      font-size: 0.5rem;
+      margin-left: 0.25rem;
+    }
+    color: #E85A4F;
+    margin-bottom: 0.5rem;
   }
 
 </style>

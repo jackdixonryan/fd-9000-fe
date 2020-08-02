@@ -47,7 +47,7 @@
   import DescriptionInfo from "./DescriptionInfo";
   import OtherInfo from "./OtherInfo";
   export default {
-    props: ["character"],
+    props: ["character", "autoOpened"],
     components: {
       AttackInfo,
       ActionInfo, 
@@ -61,6 +61,16 @@
     data() {
       return {
         expandedItems: [],
+      }
+    },
+    watch: {
+      autoOpened(val) {
+        this.expandedItems.push(val);
+      }
+    },
+    mounted() {
+      if (this.autoOpened) {
+        this.expandedItems.push(this.autoOpened)
       }
     },
     methods: {
