@@ -14,12 +14,15 @@
       </div>
       <div class="main-stats">
         <div class="armor-class">
+          AC
           {{ character.armorClass }}
         </div>
         <div class="passive-perception">
+          PP
           {{ character.passivePerception }}
         </div>
         <div class="hit-points">
+          HP
           {{ character.hitPointMax }}
         </div>
       </div>
@@ -132,26 +135,29 @@
   .armor-class {
     display: inline-block;
     background-color: #D8C3A5; 
-    padding: 1rem;
+    padding: 0.5rem;
     border-radius: 50%;
     font-size: 1rem;
+    line-height: 2.3rem;
   }
 
   .passive-perception {
     display: inline-block;
     background-color: #D8C3A5; 
-    padding: 1rem;
+    padding: 0.5rem;
     border-radius: 50%;
     font-size: 1rem;
+    line-height: 2.3rem;
   }
 
   .hit-points {
     display: inline-block;
     background-color: #E85A4F; 
-    padding: 1rem;
+    padding: 0.5rem;
     border-radius: 50%;
     font-size: 1rem;
     color: #EAE7DC;
+    line-height: 2.3rem;
   }
 
   .character-speed {
