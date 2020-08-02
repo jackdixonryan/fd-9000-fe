@@ -41,7 +41,10 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
-    console.log(store.state)
+    const tokenInStorage = localStorage.getItem("fd9000token");
+    if (tokenInStorage) {
+      store.state.loggedIn = true;
+    }
     if (!store.state.loggedIn) {
       next({
         path: "/login",
