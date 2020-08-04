@@ -1,8 +1,10 @@
 <template>
   <div v-if="spell">
     <div>
-        <span class = "title"> {{ spell.name }}</span>
-        <img class="concentration" v-if="spell.concentration == true" src="/img/icons/concentration.png" alt="Concentration Symbol (C)" />
+        <h1 class="title">
+          {{ spell.name }}
+          <img class="concentration" v-if="spell.concentration == true" src="/img/icons/concentration.png" alt="Concentration Symbol (C)" />
+        </h1>
     </div>
 
     <div class="spell-stats">
@@ -58,6 +60,7 @@
   </div>
 
   <div v-else-if="spells">
+    <h1 class="pageTitle">List of Spells</h1>
     <div v-for="spell in spells" :key="spell.name">
       <div>
           <a class="title" :href="`/spells?spell=${spell.name.toLowerCase().split(' ').join('-')}`">
@@ -187,10 +190,15 @@ import gql from 'graphql-tag';
 }
 
 .title {
-  padding: .5rem;
+  padding: 1.5rem;
   color: #5A393E;
   font-size: 2rem;
-  align: top;
+}
+
+.pageTitle {
+  padding: 1.5rem;
+  color: #D68C7B;
+  font-size: 2rem;
 }
 
 .concentration {
