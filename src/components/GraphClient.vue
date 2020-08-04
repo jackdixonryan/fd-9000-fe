@@ -1,16 +1,87 @@
 <template>
-  <div class="splash">
-    <div v-if="spells">
-      <div class="spell-box" v-for="spell in spells" :key="spell.slug">
-        <div class="spell-header">
-          <h1 class="spell-name">{{ spell.name }}</h1>
-        </div>
-        <div class="spell-body">
-          <p>{{ formatDescription(spell.desc) }}</p>
-        </div>
+  <div v-if="spell">
+    <div>
+        <h1 class="title">
+          {{ spell.name }}
+          <img class="concentration" v-if="spell.concentration == true" src="/img/icons/concentration.png" alt="Concentration Symbol (C)" />
+        </h1>
+    </div>
+
+    <div class="spell-stats">
+      <div v-if="spell.desc">
+        <h2 class="header">Description</h2>
+        <p class="field"> {{ spell.desc }} </p>
+      </div>
+      
+      <div v-if="spell.higher_level">
+        <h2 class="header">Higher Level</h2>
+        <p class="field"> {{ spell.higher_level }} </p>
+      </div>
+      
+      <div v-if="spell.range">
+        <h2 class="header">Range</h2>
+        <p class="field"> {{ spell.range }} </p>
+      </div>
+      
+      <div v-if="spell.components">
+        <h2 class="header">Components</h2>
+        <p class="field"> {{ spell.components }} </p>
+      </div>
+      
+      <div v-if="spell.material">
+        <h2 class="header">Material</h2>
+        <p class="field"> {{ spell.material }} </p>
+      </div>
+      
+      <div v-if="spell.duration">
+        <h2 class="header">Duration</h2>
+        <p class="field"> {{ spell.duration }} </p>
+      </div>
+      
+      <div v-if="spell.school">
+        <h2 class="header">School and Level</h2>
+        <img class="icon" :src="'/img/icons/school/' + spell.school + '.png'" :alt="spell.school + ' Symbol'" />
+        <span class="field"> {{ spell.school }} {{spell.level}} </span>
+      </div>
+
+      <div v-if="spell.classes">
+        <h2 class="header">Classes</h2>
+          <div v-if="spell.classes" v-for="dndClass in spell.classes">
+            <img class="icon" :src="'/img/icons/class/' + dndClass + '.png'" :alt="dndClass + ' Symbol'" />
+            <span class="field"> {{ dndClass }} </span>
+          </div>
+      </div>
+      
+      <div v-if="spell.casting_time">
+        <h2 class="header">Casting Time</h2>
+        <p class="field"> {{ spell.casting_time }} </p>
       </div>
     </div>
   </div>
+
+  <div v-else-if="spells">
+    <h1 class="pageTitle">List of Spells</h1>
+    <div v-for="spell in spells" :key="spell.name">
+      <div>
+          <a class="title" :href="`/spells?spell=${spell.name.toLowerCase().split(' ').join('-')}`">
+            <i>{{spell.name}}</i>
+          </a>
+        <img class="concentration" v-if="spell.concentration == true" src="/img/icons/concentration.png" alt="Concentration Symbol (C)" />
+      </div>
+      <div v-if="spell.school">
+        <img class="icon" :src="'/img/icons/school/' + spell.school + '.png'" :alt="spell.school + ' Symbol'" />
+        <span class="field"> {{ spell.school }} {{spell.level}} </span>
+      </div>
+      <div class="spell-stats" v-if="spell.desc">
+        <p class="field"> {{ spell.desc }} </p>
+      </div>
+      <div v-if="spell.classes">
+        <img v-for="dndClass in spell.classes" class="icon" :src="'/img/icons/class/' + dndClass + '.png'" :alt="dndClass + ' Symbol'" />
+      </div>
+      <hr class="divider">
+    </div>
+  </div>
+
 </template>
 
 <script>
@@ -20,9 +91,43 @@ import gql from 'graphql-tag';
       return {
         spell: null,
         spells: null,
+        nameFromUrl: this.$route.query.spell
       }
     },
     apollo: {
+      // Query with parameters
+      spell: {
+        // gql query
+        query: gql`query GetSpell($spellName: String!) {
+          spell(slug: $spellName)
+          {
+            slug
+            id
+            name
+            desc
+            higher_level
+            page
+            range
+            components
+            material
+            ritual
+            duration
+            concentration
+            casting_time
+            level
+            school
+            classes
+            archetype
+            circles
+          }
+        }`,
+        // Static parameters
+        variables() {
+          return {
+            spellName: this.nameFromUrl,
+          }
+        },
+      }, 
       spells: gql`query {
         spells {
           slug
@@ -72,25 +177,72 @@ import gql from 'graphql-tag';
   }
 </script>
 
-<style lang="scss" scoped>
-  .spell-box {
-    margin: 1rem;
-    padding: 1rem;
-    border-radius: 0.5rem;
-    background-color: #EDF5E1;
-    p {
-      font-family: "Fira Sans"
-    }
-  }
+<style scoped>
 
-  .spell-name {
-    font-size: 2rem;
-    font-family: "Fira Sans"
-  }
+.spell-stats {
+  flex-grow: 8;
+  text-align: left;
+  padding-left: 20px;
+}
 
-  .splash {
-    background-color: #5CDB95;
-    height: 100%;
-    width: 100%;
-  }
+.spell-stats .name {
+  font-size: 30px;
+}
+
+.title {
+  padding: 1.5rem;
+  color: #5A393E;
+  font-size: 2rem;
+}
+
+.pageTitle {
+  padding: 1.5rem;
+  color: #D68C7B;
+  font-size: 2rem;
+}
+
+.concentration {
+  display: inline-block;
+  max-width:1.5rem;
+  max-height:1.5rem;
+  width: auto;
+  height: auto;
+}
+
+.icon {
+  display: inline-block;
+  max-width:3rem;
+  max-height:3rem;
+  width: auto;
+  height: auto;
+  padding: .5rem;
+}
+
+.school {
+  display: inline-block;
+  text-align: right;
+  max-width:3rem;
+  max-height:3rem;
+  width: auto;
+  height: auto;
+  padding: .5rem;
+}
+
+.header {
+  padding: 0.25rem;
+  color: #D68C7B;
+  font-size: 1.25rem;
+}
+
+.field {
+  padding: 0.5rem;
+  font-size: 1rem;
+  color: #5A393E;
+}
+
+.divider {
+  padding: 0.5rem;
+  font-size: 1rem;
+  color: #5A393E;
+}
 </style>

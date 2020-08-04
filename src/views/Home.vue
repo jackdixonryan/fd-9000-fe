@@ -31,7 +31,11 @@
             <span>&rarr;</span>
             Map
           </router-link>
-          <p class="link animate__animated animate__flipInX" style="animation-delay:3s;" @click="signOut">
+          <router-link to="/spells" class="link animate__animated animate__flipInX" style="animation-delay:3s;">
+            <span>&rarr;</span>
+            Spells
+          </router-link>
+          <p class="link animate__animated animate__flipInX" style="animation-delay:3.5s;" @click="signOut">
             <span>&rarr;</span>
             Sign Out
           </p>

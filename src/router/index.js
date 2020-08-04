@@ -14,9 +14,15 @@ Vue.use(VueRouter)
     meta: { requiresAuth: true }
   },
   {
+    path: '/about',
+    name: 'About',
+    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue'),
+    meta: { requiresAuth: true }
+  },
+  {
     path: '/spells',
     name: 'Spells',
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue'),
+    component: () => import(/* webpackChunkName: "spells" */ '../views/Spells.vue'),
     meta: { requiresAuth: true }
   },
   {
