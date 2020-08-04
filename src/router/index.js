@@ -14,12 +14,6 @@ Vue.use(VueRouter)
     meta: { requiresAuth: true }
   },
   {
-    path: '/about',
-    name: 'About',
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue'),
-    meta: { requiresAuth: true }
-  },
-  {
     path: '/spells',
     name: 'Spells',
     component: () => import(/* webpackChunkName: "spells" */ '../views/Spells.vue'),
@@ -35,6 +29,18 @@ Vue.use(VueRouter)
     path: '/map',
     name: 'Maps',
     component: () => import(/* webpackChunkName: "maps" */ '../views/Maps.vue'),
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/story',
+    name: 'Story',
+    component: () => import(/* webpackChunkName: "story" */ '../views/Story.vue'),
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/monsters',
+    name: 'monsters',
+    component: () => import(/* webpackChunkName: "monsters" */ '../views/Monsters.vue'),
     meta: { requiresAuth: true }
   },
   {
