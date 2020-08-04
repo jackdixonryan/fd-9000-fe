@@ -12,7 +12,7 @@
       </tr>
       <tr v-for="spell in spells">
         <td class="name">{{ spell.name }}
-          <a class="spell-link" :href="`/spells/${encodeURIComponent(spell.name)}`">
+          <a class="spell-link" :href="`/spells?spell=${spell.name.toLowerCase().split(' ').join('-')}`">
             <i class="fas fa-link"></i>
           </a>
         </td>
