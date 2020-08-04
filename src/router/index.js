@@ -32,6 +32,12 @@ Vue.use(VueRouter)
     meta: { requiresAuth: true }
   },
   {
+    path: '/map',
+    name: 'Maps',
+    component: () => import(/* webpackChunkName: "maps" */ '../views/Maps.vue'),
+    meta: { requiresAuth: true }
+  },
+  {
     path: "/login",
     name: "Login",
     component: Login,
