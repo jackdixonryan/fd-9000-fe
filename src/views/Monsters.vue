@@ -4,14 +4,17 @@
         <h1>Monsters of Phandalin</h1>
         <div v-for="index in 25" :key="index">
             <h2>{{items[index-1]}}</h2>
-            <div class="row">
-              <div class="column">
-              <img :src="'/img/monsters/' + ((index*2)-1) + '.png'" alt="Monster Card" style="width:100%"/>
-              </div>
-              <div class="column">
-              <img :src="'/img/monsters/' + (index*2) + '.png'" alt="Monster Card" style="width:100%"/>
+            <div class="flip-box">
+              <div class="flip-box-inner">
+                <div class="flip-box-front">
+                  <img :src="'/img/monsters/' + ((index*2)-1) + '.png'" alt="Monster Card"  style="width:100%;height:100%"/>
+                </div>
+                <div class="flip-box-back">
+                  <img :src="'/img/monsters/' + ((index*2)) + '.png'" alt="Monster Card"  style="width:100%;height:100%"/>
+                </div>
               </div>
             </div>
+            <hr>
         </div>
 
     </div>
@@ -78,24 +81,59 @@ p {
   font-size: 1rem;
 }
 
-img {
-  display: inline-block;
-  width:50%;
-  height:50%;
-  padding: .5rem;
+/* The flip box container - set the width and height to whatever you want. We have added the border property to demonstrate that the flip itself goes out of the box on hover (remove perspective if you don't want the 3D effect */
+.flip-box {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: #D68C7B;
+  width: 700px;
+  height: 466px;
+  border: 15px solid #D68C7B;
+  perspective: 1000px; /* Remove this if you don't want the 3D effect */
 }
 
-/* Three image containers (use 25% for four, and 50% for two, etc) */
-.column {
-  float: left;
-  width: 49%;
-  padding: 5px;
+/* This container is needed to position the front and back side */
+.flip-box-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.8s;
+  transform-style: preserve-3d;
 }
 
-/* Clear floats after image containers */
-.row::after {
-  content: "";
-  clear: both;
-  display: table;
+/* Do an horizontal flip when you move the mouse over the flip box container */
+.flip-box:hover .flip-box-inner {
+  transform: rotateY(180deg);
+}
+
+/* Position the front and back side */
+.flip-box-front, .flip-box-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden; /* Safari */
+  backface-visibility: hidden;
+}
+
+/* Style the front side (fallback if image is missing) */
+.flip-box-front {
+  background-color: #bbb;
+  color: black;
+}
+
+/* Style the back side */
+.flip-box-back {
+  background-color: dodgerblue;
+  color: white;
+  transform: rotateY(180deg);
+}
+
+hr {
+  width: 90%;
+  margin-top: 3rem;
+  height: 1px;
+  background-color:#5A393E;
+  border: none;
 }
 </style>
