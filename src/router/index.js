@@ -30,6 +30,12 @@ Vue.use(VueRouter)
     name: "Login",
     component: Login,
     meta: { requiresAuth: false }
+  },
+  {
+    path: "/about",
+    name: "About",
+    component: () => import("../views/About.vue"),
+    meta: { requiresAuth: true }
   }
 ]
 
@@ -41,7 +47,7 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
-    const tokenInStorage = localStorage.getItem("fd9000token");
+    const tokenInStorage = localStorage.getItem("Authorization");
     if (tokenInStorage) {
       store.state.loggedIn = true;
     }

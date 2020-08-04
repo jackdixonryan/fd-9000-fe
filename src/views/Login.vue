@@ -22,7 +22,7 @@
       async login() {
         const call = await auth.signIn(this.username, this.password);
         if (call.accessToken) {
-          localStorage.setItem("fd9000token", call.accessToken);
+          localStorage.setItem("Authorization", call.accessToken);
           this.username = "";
           this.password = "";
         }

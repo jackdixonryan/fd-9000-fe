@@ -53,7 +53,7 @@ export default {
   name: 'Home',
   methods: {
     signOut() {
-      localStorage.removeItem("fd9000token");
+      localStorage.removeItem("Authorization");
       this.$store.commit("changeAuthState");
     }
   }
