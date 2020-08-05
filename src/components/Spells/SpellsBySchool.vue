@@ -17,15 +17,15 @@ import SpellDetails from "./SpellDetails";
     data() {
       return {
         spells: null,
-        classFromUrl: this.$route.query.class
+        schoolFromUrl: this.$route.query.school
       }
     },
     apollo: {
       // Query with parameters
       spells: {
         // gql query
-        query: gql`query GetSpells($spellClass: String!) {
-            spells(class: $spellClass)
+        query: gql`query GetSpells($spellSchool: String!) {
+            spells(school: $spellSchool)
             {
                 slug
                 name
@@ -49,7 +49,7 @@ import SpellDetails from "./SpellDetails";
         // Static parameters
         variables() {
           return {
-            spellClass: this.classFromUrl,
+            spellSchool: this.schoolFromUrl,
           }
         },
       }

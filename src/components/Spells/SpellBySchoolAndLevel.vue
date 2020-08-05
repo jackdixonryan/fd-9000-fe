@@ -1,5 +1,5 @@
 <template>
-  <div v-if="spells" >
+  <div v-if="spells">
     <h1 class="pageTitle">List of Spells</h1>
     <div v-for="spell in spells" :key="spell.name">
       <spell-details :spell="spell"></spell-details>
@@ -17,15 +17,16 @@ import SpellDetails from "./SpellDetails";
     data() {
       return {
         spells: null,
-        classFromUrl: this.$route.query.class
+        schoolFromUrl: this.$route.query.school,
+        levelFromUrl: this.$route.query.level
       }
     },
     apollo: {
       // Query with parameters
       spells: {
         // gql query
-        query: gql`query GetSpells($spellClass: String!) {
-            spells(class: $spellClass)
+        query: gql`query GetSpells($spellSchool: String!, $lvl: Int) {
+            spells(level: $lvl, school: $spellSchool)
             {
                 slug
                 name
@@ -49,7 +50,8 @@ import SpellDetails from "./SpellDetails";
         // Static parameters
         variables() {
           return {
-            spellClass: this.classFromUrl,
+            spellSchool: this.schoolFromUrl,
+            lvl: parseInt(this.levelFromUrl, 10)
           }
         },
       }
