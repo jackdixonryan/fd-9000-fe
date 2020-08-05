@@ -241,8 +241,10 @@ import gql from 'graphql-tag';
 }
 
 .divider {
-  padding: 0.5rem;
-  font-size: 1rem;
-  color: #5A393E;
+  width: 90%;
+  margin-top: 3rem;
+  height: 1px;
+  background-color:#5A393E;
+  border: none;
 }
 </style>
