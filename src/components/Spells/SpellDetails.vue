@@ -1,26 +1,26 @@
 <template>
     <div v-if="spell">
         <div>
-            <a class="title" :href="`/spells?spell=${spell.name.toLowerCase().split(' ').join('-')}`">
-                <i>{{spell.name}}</i>
-            </a>
-            <img class="concentration" v-if="spell.concentration == true" src="/img/icons/concentration.png" alt="Concentration Symbol (C)" />
+          <a class="title" :href="`/spells?spell=${spell.name.toLowerCase().split(' ').join('-')}`">
+            <i>{{spell.name}}</i>
+          </a>
+          <img class="concentration" v-if="spell.concentration == true" src="/img/icons/concentration.png" alt="Concentration Symbol (C)" />
         </div>
         <div v-if="spell.school">
-            <a :href="`/spells?school=${spell.school}`">
-                <img class="icon" :src="'/img/icons/school/' + spell.school + '.png'" :alt="spell.school + ' Symbol'" />
-            </a> 
-            <a :href="`/spells?school=${spell.school}&level=${spell.level}`">
-                <span class="field"> {{ spell.school }} {{spell.level}} </span>
-            </a>
+          <a :href="`/spells?school=${spell.school}`">
+            <img class="icon" :src="'/img/icons/school/' + spell.school + '.png'" :alt="spell.school + ' Symbol'" />
+          </a> 
+          <a :href="`/spells?school=${spell.school}&level=${spell.level}`">
+            <span class="field"> {{ spell.school }} {{spell.level}} </span>
+          </a>
         </div>
         <div class="spell-stats" v-if="spell.desc">
             <p class="field"> {{ spell.desc }} </p>
         </div>
         <div v-if="spell.classes">
-            <a v-for="dndClass in spell.classes" :href="`/spells?class=${dndClass}`">
-                <img class="icon" :src="'/img/icons/class/' + dndClass + '.png'" :alt="dndClass + ' Symbol'" />
-            </a>
+          <a v-for="dndClass in spell.classes" :href="`/spells?class=${dndClass}`">
+            <img class="icon" :src="'/img/icons/class/' + dndClass + '.png'" :alt="dndClass + ' Symbol'" />
+          </a>
         </div>
         <hr class="divider">
     </div>

@@ -40,15 +40,20 @@
       
       <div v-if="spell.school">
         <h2 class="header">School and Level</h2>
-        <img class="icon" :src="'/img/icons/school/' + spell.school + '.png'" :alt="spell.school + ' Symbol'" />
-        <span class="field"> {{ spell.school }} {{spell.level}} </span>
+        <a :href="`/spells?school=${spell.school}`">
+          <img class="icon" :src="'/img/icons/school/' + spell.school + '.png'" :alt="spell.school + ' Symbol'" />
+        </a> 
+        <a :href="`/spells?school=${spell.school}&level=${spell.level}`">
+          <span class="field"> {{ spell.school }} {{spell.level}} </span>
+        </a>
       </div>
 
       <div v-if="spell.classes">
         <h2 class="header">Classes</h2>
-          <div v-if="spell.classes" v-for="dndClass in spell.classes">
-            <img class="icon" :src="'/img/icons/class/' + dndClass + '.png'" :alt="dndClass + ' Symbol'" />
-            <span class="field"> {{ dndClass }} </span>
+          <div v-if="spell.classes">
+            <a v-for="dndClass in spell.classes" :href="`/spells?class=${dndClass}`">
+              <img class="icon" :src="'/img/icons/class/' + dndClass + '.png'" :alt="dndClass + ' Symbol'" />
+            </a>
           </div>
       </div>
       
